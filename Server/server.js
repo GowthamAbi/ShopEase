@@ -1,6 +1,8 @@
 import express from 'express'
 import router from './routes/authRoutes.js'
+import connectDB from './config/db.js'
 const app=express()
+connectDB()
 app.use(express.json())
 app.use('/',router)
 
