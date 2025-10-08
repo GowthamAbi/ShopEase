@@ -1,12 +1,6 @@
-import React from 'react'
-import Register from './pages/Register'
-import Login from './pages/Login'
+import React from 'react';
+import Routers from './Routers';
 
 export default function App() {
-  return (
-    <div>
-        <Register/>
-        <Login/>
-    </div>
-  )
+  return <Routers />;
 }

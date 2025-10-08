@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import {useNavigate} from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
+
 
 export default function Login() {
   const [userData,setUserData]=useState({
@@ -13,11 +14,10 @@ export default function Login() {
     setUserData({...userData,[name]:value})
   }
     
-
-
   const handleSubmit=(e)=>{
     e.preventDefault()
     console.log(userData)
+    navigate('/')
     setUserData({email:'',password:''})
   }
   return (
