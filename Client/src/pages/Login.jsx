@@ -1,9 +1,12 @@
 import React, { useState } from 'react'
+import {useNavigate} from 'react-router-dom'
 
 export default function Login() {
   const [userData,setUserData]=useState({
     email:'',password:''
   })
+
+ const navigate=useNavigate()
 
   const handleChange=(e)=>{
     const {name,value}=e.target
@@ -11,13 +14,14 @@ export default function Login() {
   }
     
 
+
   const handleSubmit=(e)=>{
     e.preventDefault()
     console.log(userData)
     setUserData({email:'',password:''})
   }
   return (
-    <section className='bg-gray-200' >
+    <section >
       <div className='flex items-center min-h-screen  font-serif'>
       <div className='bg-gray-300 mx-auto max-w-2xl rounded-lg p-4 shadow-2xl'>
         <div>
