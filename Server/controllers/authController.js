@@ -9,8 +9,9 @@ try {
    }
 
    const newUser=new User({name,email,phone,password})
-
-   await newUser.save()
+    console.log(newUser)
+    newUser.save()
+    
 
    res.status(201).send("User registered successfully 🚀");
 } catch (error) {

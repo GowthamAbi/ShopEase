@@ -14,11 +14,25 @@ export default function Register() {
   }
     
 
-  const handleSubmit=(e)=>{
+  const handleSubmit=async(e)=>{
     e.preventDefault()
-    console.log(userData)
+ try {
+    console.log("enter in register")
+     const res = await fetch("http://localhost:3000/register", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(userData),
+    });
+
+    const data = await res.text(); // or res.json() if backend sends JSON
+    alert(data); // shows "User registered successfully 🚀" or error
+    setUserData({ name: "", email: "", phone: "", password: "" });
     navigate('/login')
-    setUserData({name:'',email:'',phone:'',password:''})
+
+ } catch (error) {
+  console.log("error in register fetch")
+ }
+
   }
   return (
     <section  >
@@ -30,7 +44,7 @@ export default function Register() {
           <label >NAME<span className='text-red-600'> *</span></label>
           <input type="text" required className=' px-2 outline-none text-center border border-gray-200 rounded-lg focus:ring-2  focus:ring-blue-400 ' onChange={handleChange} name='name' value={userData.name}/>
           <label >EMAIL<span className='text-red-600'> *</span></label>
-          <input type="mail" required className=' px-2 outline-none text-center border border-gray-200 rounded-lg focus:ring-2  focus:ring-blue-400 ' onChange={handleChange} name='email' value={userData.email}/>
+          <input type="email" required className=' px-2 outline-none text-center border border-gray-200 rounded-lg focus:ring-2  focus:ring-blue-400 ' onChange={handleChange} name='email' value={userData.email}/>
           <label >PHONE NO<span className='text-red-600'> *</span></label>
           <input type="phone" required className=' px-2 outline-none text-center border border-gray-200 rounded-lg focus:ring-2  focus:ring-blue-400 ' onChange={handleChange} name='phone' value={userData.phone}/>
           <label >PASSWORD<span className='text-red-600'> *</span></label>
