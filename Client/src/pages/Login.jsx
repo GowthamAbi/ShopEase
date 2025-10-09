@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import api from '../services/apiService'
+
 
 
 export default function Login() {
@@ -14,11 +16,20 @@ export default function Login() {
     setUserData({...userData,[name]:value})
   }
     
-  const handleSubmit=(e)=>{
+  const handleSubmit= async(e)=>{
     e.preventDefault()
-    console.log(userData)
+try {
+      const response = await api.post("/login", {
+        email: userData.email,
+        password: userData.password,
+      });
+        console.log("Login Success:", response.data);
     navigate('/')
     setUserData({email:'',password:''})
+} catch (error) {
+  console.log("Login Error")
+}
+
   }
   return (
     <section >
