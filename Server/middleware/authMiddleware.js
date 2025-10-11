@@ -2,25 +2,31 @@ import  jwt  from "jsonwebtoken";
 
 const authMiddleware=(req,res,next)=>{
 try {
-    
-    const token = req.cookies?.token || req.header("Authorization")?.replace("Bearer ", "");
+        let token = req.cookies?.token; // Try getting token from cookies
 
-    console.log(token)
+        // If no token in cookies, check Authorization header
+        if (!token && req.headers.authorization?.startsWith("Bearer ")) {
+            token = req.headers.authorization.split(" ")[1]; // Extract token
+        }
 
-    if (!token) {
-      return res.status(401).send("Access denied. No token provided.");
+        console.log("🔹 Received Token:", token ? "✅ Present" : "❌ Missing"); // Debugging log
+
+        if (!token) {
+            return res.status(401).json({ message: "Unauthorized: No token provided" });
+        }
+
+        // Verify JWT token
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+        // Ensure `req.user` contains the correct user ID key (id OR userId)
+        req.user = { id: decoded.userId || decoded.id };  // ✅ Works for both cases
+        console.log("✅ Authenticated User ID:", req.user.id);
+
+        next(); // Proceed to next middleware
+    } catch (err) {
+        console.error("❌ Token verification failed:", err.message);
+        return res.status(401).json({ message: "Unauthorized: Invalid token" });
     }
-
-    // ✅ Verify token
-    const decoded = jwt.verify(token, "Apple"); // Replace "Apple" with a secret stored in .env
-
-    // ✅ Store user info in req (not res)
-    req.user = decoded.userId; 
-    next()
-
-} catch (error) {
-    console.log("Middleware Issue")
-}
 
 }
 

@@ -1,17 +1,17 @@
 import mongoose from "mongoose"
 
-const MONGODBURL="mongodb+srv://GowthamAbi:Gowtham2212Abi@jarvis.sqrcl.mongodb.net/?retryWrites=true&w=majority&appName=Jarvis/testing"
 
-const connectDB=async()=>{
-    try {
-        
-        await mongoose.connect(MONGODBURL)
+const connectDB = async () => {
+  try {
+    const conn = await mongoose.connect(process.env.MONGO_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    console.log(`✅ MongoDB Connected: ${conn.connection.host}`);
+  } catch (error) {
+    console.error(`❌ MongoDB Connection Error: ${error.message}`);
+    process.exit(1);
+  }
+};
 
-    console.log("db connected")
-
-    } catch (error) {
-        console.log("Error to fetch db")
-    }
-}
-
-export default connectDB
+module.exports = connectDB;
